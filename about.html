@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>About | Know Why AI</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,300;1,9..40,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --midnight: #1E3A5F;
+  --graphite: #2B3445;
+  --navy: #2A559B;
+  --teal: #23AFC7;
+  --teal-dark: #43C2D4;
+  --amber: #F4B740;
+  --gray-light: #D7E3EE;
+  --white: #FFFFFF;
+  --text-muted: #8fa8c4;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--midnight);
+  color: var(--white);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+.bg-glow {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 0%, rgba(35, 175, 199, 0.07) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 60% at 80% 100%, rgba(35, 175, 199, 0.05) 0%, transparent 70%);
+}
+
+/* ── Navigation ── */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 5%;
+  background: rgba(30, 58, 95, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+nav img.logo { height: 54px; }
+
+.nav-links {
+  display: flex;
+  gap: 32px;
+  align-items: center;
+  list-style: none;
+}
+
+.nav-links a {
+  color: var(--gray-light);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 400;
+  transition: color 0.2s;
+}
+
+.nav-links a:hover,
+.nav-links a.active { color: var(--teal); }
+
+.nav-cta {
+  background: var(--teal);
+  color: var(--white) !important;
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 600 !important;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.nav-cta:hover { background: var(--teal-dark); transform: translateY(-1px); }
+
+/* ── Hero ── */
+.hero {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 140px 24px 40px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  color: var(--teal);
+  margin-bottom: 18px;
+}
+
+.hero h1 {
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: clamp(36px, 5vw, 46px);
+  line-height: 1.15;
+  letter-spacing: -0.5px;
+  margin-bottom: 16px;
+}
+
+.hero em {
+  color: var(--teal);
+  font-style: italic;
+}
+
+.hero .lead {
+  color: var(--gray-light);
+  max-width: 620px;
+  margin: auto;
+  font-size: 18px;
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ── Problem cards ── */
+.problem-grid {
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.problem-card {
+  background: var(--graphite);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 18px;
+  padding: 32px 26px;
+  text-align: center;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.problem-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(35, 175, 199, 0.3);
+}
+
+.problem-icon { font-size: 34px; margin-bottom: 14px; }
+
+.problem-card h3 {
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: 17px;
+  margin-bottom: 8px;
+}
+
+.problem-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+/* ── Founder ── */
+.founder {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 32px auto 0;
+  padding: 0 20px;
+}
+
+.founder-card {
+  background: var(--graphite);
+  border: 1px solid rgba(35, 175, 199, 0.2);
+  border-radius: 18px;
+  padding: 42px 36px;
+  position: relative;
+  overflow: hidden;
+}
+
+.founder-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, transparent 0%, var(--teal) 50%, transparent 100%);
+}
+
+.founder-header {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+
+.founder-avatar {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--teal) 0%, rgba(35, 175, 199, 0.4) 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--midnight);
+  flex-shrink: 0;
+}
+
+.founder-name {
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: 20px;
+}
+
+.founder-title {
+  font-size: 14px;
+  color: var(--teal);
+  font-weight: 500;
+}
+
+.founder-story {
+  font-size: 16px;
+  line-height: 1.8;
+  color: var(--gray-light);
+}
+
+.founder-story p { margin-bottom: 18px; }
+.founder-story p:last-child { margin-bottom: 0; }
+.founder-story strong { color: var(--white); }
+
+/* ── AI badge ── */
+.ai-badge {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 32px 20px 0;
+}
+
+.ai-badge-inner {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(35, 175, 199, 0.06);
+  border: 1px solid rgba(35, 175, 199, 0.2);
+  border-radius: 40px;
+  padding: 10px 22px;
+  font-size: 13px;
+  color: var(--teal);
+  font-weight: 500;
+}
+
+/* ── Values ── */
+.values {
+  position: relative;
+  z-index: 1;
+  max-width: 900px;
+  margin: auto;
+  padding: 56px 20px 48px;
+}
+
+.values h2 {
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: 28px;
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.values-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.value-item {
+  background: var(--graphite);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 14px;
+  padding: 26px;
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.value-item:hover {
+  transform: translateY(-4px);
+  border-color: rgba(35, 175, 199, 0.3);
+}
+
+.value-item h3 {
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: 17px;
+  margin-bottom: 8px;
+  color: var(--teal);
+}
+
+.value-item p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--gray-light);
+}
+
+/* ── CTA ── */
+.bottom-cta {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 16px 20px 70px;
+}
+
+.bottom-cta h2 {
+  font-family: 'DM Serif Display', serif;
+  font-weight: 400;
+  font-size: 30px;
+  margin-bottom: 14px;
+}
+
+.bottom-cta h2 em {
+  color: var(--teal);
+  font-style: italic;
+}
+
+.bottom-cta p {
+  font-size: 16px;
+  color: var(--text-muted);
+  margin-bottom: 28px;
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--teal);
+  color: var(--white);
+  padding: 13px 32px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 16px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.btn:hover { background: var(--teal-dark); transform: translateY(-2px); }
+
+/* ── Footer ── */
+footer {
+  padding: 2.5rem 5%;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+footer img { height: 28px; opacity: 0.7; }
+footer p { font-size: 0.8rem; color: var(--text-muted); }
+
+/* ── Responsive ── */
+@media (max-width: 900px) {
+  .problem-grid { grid-template-columns: 1fr; max-width: 380px; margin: 40px auto; }
+  .values-grid { grid-template-columns: 1fr; }
+  .founder-card { padding: 30px 22px; }
+  nav { padding: 1rem 5%; }
+  .nav-links { gap: 20px; }
+  footer { justify-content: center; text-align: center; }
+}
+</style>
+</head>
+
+<body>
+<div class="bg-glow"></div>
+
+<!-- Nav -->
+<nav>
+  <a href="/"><img class="logo" src="logo.png" alt="Know Why" /></a>
+  <ul class="nav-links">
+    <li><a href="/">Home</a></li>
+    <li><a href="/pricing">Pricing</a></li>
+    <li><a href="/about" class="active">About</a></li>
+    <li><a href="#" class="nav-cta">Start Free Trial</a></li>
+  </ul>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="eyebrow">Our Mission</div>
+  <h1>Stop guessing.<br>Start <em>knowing why.</em></h1>
+  <p class="lead">We're building the win/loss intelligence platform that makes buyer feedback accessible to every GTM team — not just the ones with six-figure research budgets.</p>
+</section>
+
+<!-- The Problem -->
+<section class="problem-grid">
+  <div class="problem-card">
+    <div class="problem-icon">&#9201;</div>
+    <h3>Interviews don't scale</h3>
+    <p>Talking to every buyer is the gold standard, but it takes hours per interview. Most teams can only cover a fraction of their closed deals.</p>
+  </div>
+  <div class="problem-card">
+    <div class="problem-icon">&#128203;</div>
+    <h3>Surveys fall short</h3>
+    <p>Static surveys tell you a feature was missing — but not which one. You get surface-level signals when you need real depth.</p>
+  </div>
+  <div class="problem-card">
+    <div class="problem-icon">&#128184;</div>
+    <h3>Services are expensive</h3>
+    <p>Third-party interview vendors charge $900+ per conversation. That math doesn't work for most companies — especially with lower ACVs.</p>
+  </div>
+</section>
+
+<!-- Founder -->
+<section class="founder">
+  <div class="founder-card">
+    <div class="founder-header">
+      <div class="founder-avatar">K</div>
+      <div>
+        <div class="founder-name">Katie</div>
+        <div class="founder-title">Founder &amp; Builder</div>
+      </div>
+    </div>
+    <div class="founder-story">
+      <p>After nearly <strong>20 years in B2B marketing</strong> — from enterprise brands like Oracle to high-growth companies like Neon One — I kept running into the same problem: GTM teams desperately need voice-of-customer intelligence, but the tools to get it are either too shallow, too slow, or too expensive.</p>
+
+      <p>Leaders need to understand the full buyer journey — the catalysts that started the search, the pain points driving urgency, how buyers evaluated options, and ultimately what tipped the decision. That depth of insight is transformative for product, sales, marketing, and support teams alike.</p>
+
+      <p>But the status quo doesn't work. <strong>Manual interviews are time-consuming and don't scale.</strong> Static surveys capture a checkbox, not a conversation — you learn a feature was missing, but not <em>which</em> feature. And the vendors who do deep buyer interviews? They charge upwards of $900 per survey, pricing out the majority of companies.</p>
+
+      <p>I kept thinking about how an AI-powered platform could solve this — one that could conduct <strong>personalized, adaptive interviews at scale</strong>, asking the smart follow-up questions that surface the real "why" behind every deal outcome. The kind of insight that helps teams actually improve and win more.</p>
+
+      <p>So I finally sat down and built it. As an AI-forward founder, <strong>I've built know-why.ai entirely using AI</strong> — and I believe it's the future of how every GTM team will understand their buyers.</p>
+    </div>
+  </div>
+</section>
+
+<!-- AI Badge -->
+<div class="ai-badge">
+  <div class="ai-badge-inner">
+    &#10022; &nbsp;Built entirely with AI — from concept to code
+  </div>
+</div>
+
+<!-- Values -->
+<section class="values">
+  <h2>What we believe</h2>
+  <div class="values-grid">
+    <div class="value-item">
+      <h3>Buyer truth over CRM fiction</h3>
+      <p>CRM dropdown reasons are guesses. Real insight comes from asking buyers directly, in their own words, with the follow-up questions that matter.</p>
+    </div>
+    <div class="value-item">
+      <h3>Intelligence for every team, not just enterprise</h3>
+      <p>Win/loss analysis shouldn't be a luxury reserved for companies with massive research budgets. We're making it accessible and affordable.</p>
+    </div>
+    <div class="value-item">
+      <h3>Depth over volume</h3>
+      <p>A hundred NPS scores tell you less than ten real conversations. Our AI asks the follow-ups that turn surface feedback into strategic clarity.</p>
+    </div>
+    <div class="value-item">
+      <h3>AI as a force multiplier</h3>
+      <p>We use AI not to replace human judgment, but to scale the kind of deep, empathetic inquiry that was previously only possible one conversation at a time.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bottom-cta">
+  <h2>Ready to know <em>why</em>?</h2>
+  <p>Start collecting real buyer intelligence today. No credit card, no commitment — just the insights your team has been missing.</p>
+  <a href="#" class="btn">Get Started Free</a>
+</section>
+
+<!-- Footer -->
+<footer>
+  <a href="/"><img src="logo.png" alt="Know Why" /></a>
+  <p>&copy; 2025 Know Why &middot; know-why.ai</p>
+</footer>
+
+</body>
+</html>
