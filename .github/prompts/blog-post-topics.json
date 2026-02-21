@@ -3,105 +3,156 @@
     {
       "title": "The Complete Guide to Win/Loss Analysis for B2B SaaS",
       "category": "Win/Loss Analysis",
-      "suggested_keywords": ["win loss analysis", "B2B SaaS", "deal analysis", "buyer feedback"],
+      "primary_keyword": "win loss analysis",
+      "search_intent": "informational",
+      "cluster_role": "pillar",
+      "suggested_keywords": ["win loss analysis", "B2B SaaS deal analysis", "buyer feedback program"],
       "priority": 1
     },
     {
       "title": "5 Voice of Customer Frameworks Every GTM Leader Should Know",
       "category": "Voice of Customer",
-      "suggested_keywords": ["voice of customer", "VOC framework", "customer feedback", "GTM"],
+      "primary_keyword": "voice of customer framework",
+      "search_intent": "how-to",
+      "cluster_role": "pillar",
+      "suggested_keywords": ["voice of customer framework", "VOC program", "customer feedback strategy"],
       "priority": 1
     },
     {
       "title": "How to Build a Competitive Intelligence Program from Scratch",
       "category": "Competitive Intelligence",
-      "suggested_keywords": ["competitive intelligence", "competitor analysis", "B2B strategy"],
+      "primary_keyword": "competitive intelligence program",
+      "search_intent": "how-to",
+      "cluster_role": "pillar",
+      "suggested_keywords": ["competitive intelligence program", "competitor analysis B2B", "CI strategy"],
       "priority": 1
     },
     {
       "title": "AI-Powered Buyer Interviews: The Future of Win/Loss Intelligence",
       "category": "Buyer Intelligence",
-      "suggested_keywords": ["AI buyer interviews", "automated win loss", "AI intelligence"],
+      "primary_keyword": "AI buyer interviews",
+      "search_intent": "informational",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["AI buyer interviews", "automated win loss interviews", "AI-powered buyer feedback"],
       "priority": 1
     },
     {
       "title": "Scaling Win/Loss Analysis Without Scaling Your Budget",
       "category": "Win/Loss Analysis",
-      "suggested_keywords": ["scale win loss", "affordable win loss", "buyer research budget"],
+      "primary_keyword": "win loss analysis cost",
+      "search_intent": "consideration",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["win loss analysis cost", "affordable buyer research", "budget-friendly win loss"],
       "priority": 1
     },
     {
       "title": "The Complete Win/Loss Interview Question Framework",
       "category": "Win/Loss Analysis",
-      "suggested_keywords": ["win loss questions", "interview framework", "buyer interview template"],
+      "primary_keyword": "win loss interview questions",
+      "search_intent": "template",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["win loss interview questions", "buyer interview template", "post-sale interview guide"],
       "priority": 1,
       "suggest_download": true,
       "download_type": "Win/Loss Interview Question Template (PDF)"
     },
     {
-      "title": "Win/Loss Interviews vs. NPS Surveys: What Actually Drives Revenue",
+      "title": "Win/Loss Interviews vs. NPS Surveys: Which Drives Real Revenue Insight",
       "category": "Win/Loss Analysis",
-      "suggested_keywords": ["win loss interviews", "NPS survey", "buyer intelligence", "revenue growth"],
+      "primary_keyword": "win loss interviews vs NPS",
+      "search_intent": "comparison",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["win loss interviews vs NPS", "buyer survey comparison", "NPS limitations B2B"],
       "priority": 2
     },
     {
-      "title": "The RevOps Guide to Buyer Intelligence: From Data to Decisions",
+      "title": "The RevOps Guide to Buyer Intelligence",
       "category": "Revenue Operations",
-      "suggested_keywords": ["RevOps", "buyer intelligence", "revenue operations", "data-driven decisions"],
+      "primary_keyword": "buyer intelligence RevOps",
+      "search_intent": "how-to",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["buyer intelligence RevOps", "revenue operations data strategy", "deal intelligence"],
       "priority": 2
     },
     {
-      "title": "Product Marketing's Secret Weapon: Systematic Buyer Feedback",
+      "title": "How Product Marketing Teams Use Buyer Feedback to Sharpen Positioning",
       "category": "Product Marketing",
-      "suggested_keywords": ["product marketing", "buyer feedback", "positioning", "messaging"],
+      "primary_keyword": "product marketing buyer feedback",
+      "search_intent": "how-to",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["product marketing buyer feedback", "positioning research", "messaging validation"],
       "priority": 2
     },
     {
       "title": "Building a GTM Intelligence Stack for Mid-Market SaaS",
       "category": "GTM Strategy",
-      "suggested_keywords": ["GTM intelligence", "mid-market SaaS", "go-to-market strategy"],
+      "primary_keyword": "GTM intelligence stack",
+      "search_intent": "how-to",
+      "cluster_role": "pillar",
+      "suggested_keywords": ["GTM intelligence stack", "go-to-market tools mid-market", "SaaS GTM strategy"],
       "priority": 2
     },
     {
-      "title": "How to Calculate the ROI of a Win/Loss Analysis Program",
+      "title": "How to Calculate the ROI of Win/Loss Analysis",
       "category": "Win/Loss Analysis",
-      "suggested_keywords": ["win loss ROI", "analysis program ROI", "buyer interview ROI"],
+      "primary_keyword": "win loss analysis ROI",
+      "search_intent": "how-to",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["win loss analysis ROI", "buyer research ROI calculator", "win loss business case"],
       "priority": 2
     },
     {
-      "title": "7 Buyer Signals Your Team Is Missing (And How to Capture Them)",
+      "title": "7 Buyer Signals Your Sales Team Is Missing",
       "category": "Buyer Intelligence",
-      "suggested_keywords": ["buyer signals", "buyer intent", "sales intelligence"],
+      "primary_keyword": "buyer signals B2B sales",
+      "search_intent": "listicle",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["buyer signals B2B sales", "buyer intent data", "purchase decision indicators"],
       "priority": 2
     },
     {
-      "title": "What B2B Buyers Actually Want You to Ask (Research-Backed Guide)",
+      "title": "What B2B Buyers Actually Want You to Ask After a Deal Closes",
       "category": "Buyer Intelligence",
-      "suggested_keywords": ["B2B buyer research", "buyer interview questions", "buyer expectations"],
+      "primary_keyword": "post-sale buyer interview",
+      "search_intent": "informational",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["post-sale buyer interview", "closed deal feedback", "buyer expectations research"],
       "priority": 2
     },
     {
-      "title": "How Top B2B SaaS Companies Use Buyer Intelligence to Hit Revenue Targets",
+      "title": "How Top SaaS Companies Turn Buyer Intelligence into Revenue Growth",
       "category": "GTM Strategy",
-      "suggested_keywords": ["B2B SaaS revenue", "buyer intelligence strategy", "revenue targets"],
+      "primary_keyword": "buyer intelligence revenue growth",
+      "search_intent": "examples",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["buyer intelligence revenue growth", "SaaS revenue strategy", "customer insight driven growth"],
       "priority": 2
     },
     {
       "title": "The Sales Enablement Leader's Guide to Competitive Battlecards",
       "category": "Sales Enablement",
-      "suggested_keywords": ["sales enablement", "competitive battlecards", "win rate improvement"],
+      "primary_keyword": "competitive battlecard template",
+      "search_intent": "template",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["competitive battlecard template", "sales enablement battlecards", "competitor objection handling"],
       "priority": 3
     },
     {
-      "title": "From Loss to Lesson: Turning Deal Losses into Product Improvements",
+      "title": "Turning Deal Losses into Product Roadmap Priorities",
       "category": "Product Marketing",
-      "suggested_keywords": ["deal loss", "product improvement", "customer feedback loop"],
+      "primary_keyword": "deal loss product feedback",
+      "search_intent": "how-to",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["deal loss product feedback", "loss analysis product roadmap", "customer feedback loop product"],
       "priority": 3
     },
     {
-      "title": "The CMO's Quarterly Review Template: Buyer Intelligence Edition",
+      "title": "The CMO's Quarterly Buyer Intelligence Review Template",
       "category": "GTM Strategy",
-      "suggested_keywords": ["CMO review", "quarterly review", "buyer intelligence metrics"],
+      "primary_keyword": "buyer intelligence metrics dashboard",
+      "search_intent": "template",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["buyer intelligence metrics dashboard", "CMO quarterly review template", "win loss reporting"],
       "priority": 3,
       "suggest_download": true,
       "download_type": "Quarterly Review Template (PDF)"
@@ -109,13 +160,19 @@
     {
       "title": "Competitive Intelligence for Product-Led Growth Companies",
       "category": "Competitive Intelligence",
-      "suggested_keywords": ["PLG competitive intelligence", "product-led growth", "competitive analysis"],
+      "primary_keyword": "PLG competitive intelligence",
+      "search_intent": "how-to",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["PLG competitive intelligence", "product-led growth competitor analysis", "self-serve competitive strategy"],
       "priority": 3
     },
     {
       "title": "Voice of Customer Programs: Build vs. Buy Decision Framework",
       "category": "Voice of Customer",
-      "suggested_keywords": ["VOC program", "build vs buy", "customer feedback program"],
+      "primary_keyword": "VOC program build vs buy",
+      "search_intent": "comparison",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["VOC program build vs buy", "customer feedback tool selection", "voice of customer vendor evaluation"],
       "priority": 3,
       "suggest_download": true,
       "download_type": "VOC Build vs. Buy Decision Matrix (PDF)"
@@ -123,7 +180,10 @@
     {
       "title": "The Product Marketing Manager's Win/Loss Playbook",
       "category": "Product Marketing",
-      "suggested_keywords": ["product marketing", "win loss playbook", "competitive positioning"],
+      "primary_keyword": "win loss playbook product marketing",
+      "search_intent": "template",
+      "cluster_role": "cluster",
+      "suggested_keywords": ["win loss playbook product marketing", "competitive positioning framework", "PMM win loss guide"],
       "priority": 3,
       "suggest_download": true,
       "download_type": "Win/Loss Playbook Template (PDF)"

@@ -36,6 +36,7 @@ def load_existing_posts():
                     "title": fm.get("title", ""),
                     "category": fm.get("category", ""),
                     "tags": fm.get("tags", []),
+                    "keywords": fm.get("keywords", ""),
                     "date": str(fm.get("date", "")),
                 })
     return existing
@@ -106,7 +107,8 @@ def generate_blog_post(client, topic, existing_posts, include_download):
     system_prompt = load_system_prompt()
 
     existing_titles = "\n".join(
-        f"- {p['title']}" for p in existing_posts[-10:]
+        f"- {p['title']} (keywords: {p.get('keywords', 'N/A')})"
+        for p in existing_posts[-10:]
     )
 
     download_instruction = ""
@@ -122,11 +124,14 @@ Set download_description to a compelling 1-sentence description of what the read
 
 **Topic**: {topic.get('title', '')}
 **Category**: {topic.get('category', 'GTM Strategy')}
-**Suggested Keywords**: {', '.join(topic.get('suggested_keywords', []))}
+**Primary Keyword** (MUST be the main keyword this post ranks for): {topic.get('primary_keyword', topic.get('suggested_keywords', [''])[0])}
+**Secondary Keywords**: {', '.join(topic.get('suggested_keywords', []))}
+**Search Intent**: {topic.get('search_intent', 'informational')}
+**Cluster Role**: {topic.get('cluster_role', 'cluster')} (pillar = comprehensive guide, cluster = specific tactical piece)
 
 {download_instruction}
 
-**Recently published posts (avoid overlap)**:
+**Recently published posts (DO NOT target their primary keywords — differentiate)**:
 {existing_titles}
 
 Generate the complete blog post in Markdown with YAML front matter.

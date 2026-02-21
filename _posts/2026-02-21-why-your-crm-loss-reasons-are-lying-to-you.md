@@ -9,7 +9,7 @@ tags:
   - crm-data
   - buyer-intelligence
   - sales-operations
-author: "know-why.ai"
+author: "Katie Albanos"
 reading_time: 7
 og_image: "/og-image.png"
 keywords: "CRM loss reasons, win loss analysis, deal loss analysis, buyer feedback"

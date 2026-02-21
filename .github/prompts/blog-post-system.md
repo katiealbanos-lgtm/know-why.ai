@@ -82,7 +82,7 @@ tags:
   - tag-1
   - tag-2
   - tag-3
-author: "know-why.ai"
+author: "Katie Albanos"
 reading_time: [estimated minutes, integer]
 og_image: "/og-image.png"
 keywords: "[primary keyword], [secondary keyword 1], [secondary keyword 2]"
@@ -107,6 +107,44 @@ download_description: ""
 - Revenue Operations
 - Product Marketing
 - Sales Enablement
+
+## Keyword Strategy & Anti-Cannibalization
+
+This is critical. Each blog post must own a DISTINCT primary keyword that no other post targets.
+
+### Rules
+- Every post has exactly ONE primary keyword (the main search query it should rank for)
+- The primary keyword goes first in the `keywords` front matter field
+- Secondary keywords support the primary — they should NOT be another post's primary keyword
+- Before writing, review the "recently published posts" list and their keywords to avoid overlap
+- If two topics are closely related, differentiate them by:
+  - Targeting different search intents (informational vs. how-to vs. comparison)
+  - Targeting different audience segments (marketing vs. sales vs. RevOps)
+  - Targeting different funnel stages (awareness vs. consideration vs. decision)
+
+### Keyword Differentiation Examples
+GOOD: Post A targets "win loss analysis" (broad guide), Post B targets "win loss interview questions" (specific template)
+BAD: Post A targets "win loss analysis guide", Post B targets "win loss analysis for SaaS" (too similar)
+
+### Content Clustering Approach
+Think of the blog as a topic cluster model:
+- **Pillar posts** (broad, comprehensive): Target high-volume head terms like "win loss analysis", "buyer intelligence", "competitive intelligence"
+- **Cluster posts** (specific, tactical): Target long-tail variations that link back to the pillar, like "win loss interview questions", "how to calculate win loss ROI", "competitive battlecard template"
+
+### Search Intent Matching
+- Match the content format to the search intent behind the keyword:
+  - "What is [topic]" → Definition + explainer format
+  - "How to [topic]" → Step-by-step framework format
+  - "[Topic A] vs [Topic B]" → Comparison format
+  - "[Topic] template/framework" → Downloadable resource + walkthrough
+  - "[Topic] best practices" → Listicle with actionable tips
+  - "[Topic] examples" → Case study / scenario format
+
+### GEO-Specific Keyword Considerations
+- Include question-format headings that AI assistants are likely to surface
+- Write definitive statements that can serve as featured snippet answers
+- Structure content with clear hierarchical headings that map to subtopics
+- Include data points and statistics that AI systems prefer to cite
 
 ## Content Quality Standards
 
