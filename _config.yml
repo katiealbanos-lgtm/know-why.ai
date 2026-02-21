@@ -1,0 +1,41 @@
+# Site settings
+title: "know-why.ai"
+description: "AI-powered win/loss intelligence platform. Buyer insights at scale."
+url: "https://know-why.ai"
+baseurl: ""
+
+# Build settings
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+  syntax_highlighter: rouge
+
+# Permalink structure for blog posts
+permalink: /blog/:year/:month/:day/:title/
+
+# Collections / defaults
+defaults:
+  - scope:
+      path: "_posts"
+      type: "posts"
+    values:
+      layout: "post"
+
+# Exclude files from Jekyll processing
+exclude:
+  - README.md
+  - LICENSE
+  - .github
+  - Gemfile
+  - Gemfile.lock
+
+# Keep existing files untouched
+include:
+  - CNAME
+
+# Plugins (supported by GitHub Pages)
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-sitemap

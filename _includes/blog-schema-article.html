@@ -1,0 +1,28 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": {{ page.title | jsonify }},
+  "description": {{ page.description | jsonify }},
+  "datePublished": "{{ page.date | date_to_xmlschema }}",
+  "dateModified": "{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+  "author": {
+    "@type": "Organization",
+    "name": "know-why.ai",
+    "url": "https://know-why.ai"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "know-why.ai",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://know-why.ai/logo.png"
+    }
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ page.url | absolute_url }}"
+  },
+  "image": "{{ page.og_image | default: '/og-image.png' | absolute_url }}"
+}
+</script>

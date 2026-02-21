@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% include blog-head.html %}
+{% include blog-schema-article.html %}
+{% if page.faq %}{% include blog-schema-faq.html %}{% endif %}
+</head>
+
+<body>
+<div class="bg-glow"></div>
+
+{% include blog-nav.html %}
+
+<article>
+  <header class="post-header">
+    <div class="post-meta">
+      <span class="post-category">{{ page.category }}</span>
+      <span class="post-date">{{ page.date | date: "%B %d, %Y" }}</span>
+      <span class="post-reading-time">{{ page.reading_time }} min read</span>
+    </div>
+    <h1>{{ page.title }}</h1>
+    <p class="post-excerpt">{{ page.description }}</p>
+  </header>
+
+  <div class="post-content">
+    {{ content }}
+  </div>
+
+  {% if page.faq %}
+  <section class="post-faq">
+    <h2>Frequently Asked Questions</h2>
+    {% for item in page.faq %}
+    <div class="faq-item">
+      <h3>{{ item.question }}</h3>
+      <p>{{ item.answer }}</p>
+    </div>
+    {% endfor %}
+  </section>
+  {% endif %}
+
+  {% if page.download %}
+  <div class="download-cta">
+    <h3>Free Download</h3>
+    <p>{{ page.download_description }}</p>
+    <a href="{{ page.download_url }}" class="btn-download" download>Download Free (PDF)</a>
+  </div>
+  {% endif %}
+
+  <div class="post-cta">
+    <h3>Ready to know <em>why</em>?</h3>
+    <p>Stop guessing why you win and lose deals. know-why.ai conducts AI-powered buyer interviews at scale, giving your team the intelligence to win more.</p>
+    <a href="/#trial" class="btn-primary">Start Your Free Trial</a>
+  </div>
+</article>
+
+{% include blog-footer.html %}
+</body>
+</html>

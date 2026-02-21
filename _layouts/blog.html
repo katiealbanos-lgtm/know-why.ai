@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+{% include blog-head.html %}
+</head>
+
+<body>
+<div class="bg-glow"></div>
+
+{% include blog-nav.html %}
+
+<section class="blog-hero">
+  <div class="eyebrow">Blog</div>
+  <h1>Insights for <em>GTM leaders</em></h1>
+  <p class="lead">Practical frameworks, guides, and strategies for win/loss analysis, buyer intelligence, and go-to-market success.</p>
+</section>
+
+<div class="posts-grid">
+  {% for post in site.posts %}
+  <a href="{{ post.url }}" class="post-card">
+    <div class="post-card-meta">
+      <span class="post-card-category">{{ post.category }}</span>
+      <span class="post-card-date">{{ post.date | date: "%B %d, %Y" }}</span>
+      <span class="post-card-reading-time">{{ post.reading_time }} min read</span>
+      {% if post.download %}<span class="post-card-download">+ Free Download</span>{% endif %}
+    </div>
+    <h2>{{ post.title }}</h2>
+    <p>{{ post.description }}</p>
+  </a>
+  {% endfor %}
+</div>
+
+<div class="post-cta">
+  <h3>Ready to know <em>why</em>?</h3>
+  <p>Stop guessing why you win and lose deals. know-why.ai conducts AI-powered buyer interviews at scale, giving your team the intelligence to win more.</p>
+  <a href="/#trial" class="btn-primary">Start Your Free Trial</a>
+</div>
+
+{% include blog-footer.html %}
+</body>
+</html>
