@@ -8,7 +8,7 @@ tags:
   - win-loss-analysis
   - deal-analysis
   - buyer-feedback
-author: "know-why.ai"
+author: "Katie Albanos"
 reading_time: 12
 og_image: "/og-image.png"
 keywords: "win loss analysis, B2B SaaS, deal analysis, buyer feedback"
