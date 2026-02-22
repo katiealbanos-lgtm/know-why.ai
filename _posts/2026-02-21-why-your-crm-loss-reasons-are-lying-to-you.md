@@ -115,4 +115,4 @@ The goal isn't just better data — it's better decisions. When you know the rea
 
 Your CRM will always be part of the picture. But it shouldn't be the whole picture. The companies that consistently outperform their competitors are the ones that go beyond the dropdown and build a direct line to buyer truth.
 
-Ready to see what your buyers are really thinking? [Start your free trial](/#trial) and find out why you're winning and losing — straight from the source.
+Ready to see what your buyers are really thinking? [Start free](/#trial) and get your first win/loss insights — straight from the source.
