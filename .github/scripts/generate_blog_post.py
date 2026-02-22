@@ -2,12 +2,14 @@
 """
 Blog post generation script for know-why.ai.
 Uses Anthropic Claude API to generate SEO/GEO/AEO optimized blog posts.
+Writes outputs to Supabase for the Know Why OS dashboard.
 """
 
 import anthropic
 import json
 import os
 import re
+import time
 import yaml
 from datetime import datetime
 from pathlib import Path
@@ -150,7 +152,7 @@ IMPORTANT: Output ONLY the markdown content starting with --- for the front matt
         messages=[{"role": "user", "content": user_prompt}],
     )
 
-    return response.content[0].text
+    return response
 
 
 def parse_generated_content(content):
@@ -166,6 +168,53 @@ def parse_generated_content(content):
     fm = yaml.safe_load(content[3:fm_end])
 
     return fm, content
+
+
+def write_to_supabase(title, content, tokens_used, duration_ms):
+    """Write the generated output and run log to Supabase for the OS dashboard."""
+    supabase_url = os.environ.get("SUPABASE_URL", "")
+    supabase_key = os.environ.get("SUPABASE_SERVICE_KEY", "")
+
+    if not supabase_url or not supabase_key:
+        print("Supabase credentials not configured — skipping OS sync")
+        return
+
+    try:
+        from supabase import create_client
+        sb = create_client(supabase_url, supabase_key)
+
+        # Look up Casey's agent_id
+        result = sb.table("agent_registry").select("id").eq("slug", "casey").single().execute()
+        agent_id = result.data["id"]
+
+        # Insert output
+        sb.table("agent_outputs").insert({
+            "agent_id": agent_id,
+            "output_type": "blog_post",
+            "title": title,
+            "content": content,
+            "status": "pending_approval",
+        }).execute()
+
+        # Insert log
+        sb.table("agent_logs").insert({
+            "agent_id": agent_id,
+            "run_status": "success",
+            "tokens_used": tokens_used,
+            "duration_ms": duration_ms,
+            "summary": f"Generated blog post: {title}",
+        }).execute()
+
+        # Update last_run_at
+        sb.table("agent_registry").update({
+            "last_run_at": datetime.utcnow().isoformat(),
+        }).eq("id", agent_id).execute()
+
+        print(f"Synced to Know Why OS: output + log for '{title}'")
+
+    except Exception as e:
+        print(f"Warning: failed to sync to Supabase — {e}")
+        # Don't fail the workflow over a Supabase issue
 
 
 def main():
@@ -191,7 +240,13 @@ def main():
     print(f"Category: {topic.get('category', 'N/A')}")
 
     # Generate the post
-    raw_content = generate_blog_post(client, topic, existing_posts, include_download)
+    start_time = time.time()
+    response = generate_blog_post(client, topic, existing_posts, include_download)
+    duration_ms = int((time.time() - start_time) * 1000)
+
+    raw_content = response.content[0].text
+    tokens_used = response.usage.input_tokens + response.usage.output_tokens
+
     fm, full_content = parse_generated_content(raw_content)
 
     # Derive slug and filename
@@ -215,6 +270,14 @@ def main():
     Path("/tmp/post_summary.txt").write_text(fm.get("description", ""))
     Path("/tmp/post_category.txt").write_text(fm.get("category", ""))
     Path("/tmp/post_keywords.txt").write_text(fm.get("keywords", ""))
+
+    # Sync to Know Why OS
+    write_to_supabase(
+        title=fm.get("title", "Untitled"),
+        content=full_content,
+        tokens_used=tokens_used,
+        duration_ms=duration_ms,
+    )
 
 
 if __name__ == "__main__":
