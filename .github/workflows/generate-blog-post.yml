@@ -43,10 +43,10 @@ jobs:
         id: generate
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          TOPIC_OVERRIDE: ${{ github.event.inputs.topic_override || '' }}
-          INCLUDE_DOWNLOAD: ${{ github.event.inputs.include_download || 'false' }}
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          TOPIC_OVERRIDE: ${{ github.event.inputs.topic_override || '' }}
+          INCLUDE_DOWNLOAD: ${{ github.event.inputs.include_download || 'false' }}
         run: python .github/scripts/generate_blog_post.py
 
       - name: Create branch and commit

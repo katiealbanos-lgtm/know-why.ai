@@ -171,7 +171,7 @@ def parse_generated_content(content):
 
 
 def write_to_supabase(title, content, tokens_used, duration_ms):
-    """Write the generated output and run log to Supabase for the OS dashboard."""
+    """Write the generated output and run log to Supabase for the Know Why OS dashboard."""
     supabase_url = os.environ.get("SUPABASE_URL", "")
     supabase_key = os.environ.get("SUPABASE_SERVICE_KEY", "")
 
