@@ -172,6 +172,12 @@
       gap: 1.25rem;
     }
 
+    .integrations-grid-2col {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+    }
+
     .integration-card {
       background: var(--graphite);
       border: 1px solid rgba(255,255,255,0.07);
@@ -324,6 +330,7 @@
       .nav-links { display: none; }
       .hero { padding: 7.5rem 5% 3.5rem; }
       .integrations-grid { grid-template-columns: 1fr; }
+      .integrations-grid-2col { grid-template-columns: 1fr; }
       .filter-bar { gap: 0.4rem; }
       footer { justify-content: center; text-align: center; }
     }
@@ -373,7 +380,7 @@
     <h2>Available Now</h2>
     <span class="badge badge-live">Live</span>
   </div>
-  <div class="integrations-grid">
+  <div class="integrations-grid-2col">
 
     <!-- HubSpot -->
     <div class="integration-card">
@@ -391,6 +398,44 @@
       <div class="integration-footer">
         <span class="integration-status status-live">● Live</span>
         <a href="/integrations/hubspot" class="integration-link">Learn more →</a>
+      </div>
+    </div>
+
+    <!-- Salesforce -->
+    <div class="integration-card">
+      <div class="integration-header">
+        <div class="integration-logo">
+          <img src="https://zvhtpppwamqahiqbjgti.supabase.co/storage/v1/object/public/media/salesforce-logo-1772059898610.svg" alt="Salesforce" />
+        </div>
+        <div class="integration-meta">
+          <div class="integration-name">Salesforce</div>
+          <div class="integration-category">CRM</div>
+        </div>
+        <span class="kw-plus">K + SF</span>
+      </div>
+      <p class="integration-desc">Pull closed deal data from Salesforce to automatically identify interview candidates. Push buyer insights back to opportunity records so your revenue team always has the full picture.</p>
+      <div class="integration-footer">
+        <span class="integration-status status-live">● Live</span>
+        <a href="/integrations/salesforce" class="integration-link">Learn more →</a>
+      </div>
+    </div>
+
+    <!-- Slack -->
+    <div class="integration-card">
+      <div class="integration-header">
+        <div class="integration-logo">
+          <img src="https://zvhtpppwamqahiqbjgti.supabase.co/storage/v1/object/public/media/slack-logo-1772059938279.svg" alt="Slack" />
+        </div>
+        <div class="integration-meta">
+          <div class="integration-name">Slack</div>
+          <div class="integration-category">Communication</div>
+        </div>
+        <span class="kw-plus">K + SL</span>
+      </div>
+      <p class="integration-desc">Receive interview transcripts and buyer insights in real time, delivered directly to your Slack channels. Keep your GTM team informed the moment a buyer completes an interview — no dashboard required.</p>
+      <div class="integration-footer">
+        <span class="integration-status status-live">● Live</span>
+        <a href="/integrations/slack" class="integration-link">Learn more →</a>
       </div>
     </div>
 
@@ -521,17 +566,4 @@
   <div class="eyebrow">Get Started</div>
   <h2>Ready to put win/loss insights<br /><em>to work?</em></h2>
   <p>Know Why connects to your existing stack so your whole GTM team — sales, marketing, product — gets the context they need to compete and win.</p>
-  <div class="cta-actions">
-    <a href="https://know-why.ai/#trial" class="btn-primary">Request a Demo</a>
-    <a href="https://know-why.ai/pricing" class="btn-secondary">View Pricing →</a>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <a href="https://know-why.ai/"><img src="https://know-why.ai/logo.png" alt="know-why.ai — AI-powered win/loss intelligence" /></a>
-  <p>&copy; 2026 know-why.ai</p>
-</footer>
-
-</body>
-</html>
+  <div class="cta
