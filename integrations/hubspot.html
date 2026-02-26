@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HubSpot Integration — know-why.ai</title>
+  <meta name="description" content="Connect Know Why with HubSpot to automatically trigger buyer interviews when deals close and push win/loss insights directly into your CRM records." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight: #1E3A5F;
+      --graphite: #2B3445;
+      --navy: #2A559B;
+      --teal: #23AFC7;
+      --teal-dark: #43C2D4;
+      --amber: #F4B740;
+      --gray-light: #D7E3EE;
+      --white: #FFFFFF;
+      --text-muted: #8fa8c4;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--midnight);
+      color: var(--gray-light);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 5%;
+      background: rgba(30, 58, 95, 0.85);
+      backdrop-filter: blur(12px);
+    }
+    .logo { height: 54px; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 2.2rem; }
+    .nav-links a { font-size: 0.92rem; font-weight: 500; color: var(--gray-light); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+    .nav-cta {
+      background: var(--teal); color: var(--white) !important;
+      padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600;
+    }
+    .nav-cta:hover { background: var(--teal-dark); }
+
+    /* Hero */
+    .hero {
+      position: relative; padding: 10rem 5% 6rem;
+      text-align: center; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+    .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(35, 175, 199, 0.1); border: 1px solid rgba(35, 175, 199, 0.2);
+      border-radius: 20px; padding: 0.4rem 1rem; font-size: 0.82rem;
+      font-weight: 500; color: var(--teal); margin-bottom: 1.5rem;
+    }
+    h1 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 5rem); line-height: 1.08;
+      color: var(--white); letter-spacing: -0.02em;
+    }
+    h1 em { color: var(--teal); font-style: italic; }
+    .hero-sub {
+      margin-top: 1.5rem; font-size: 1.15rem; color: var(--gray-light);
+      max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.7;
+    }
+    .hero-actions { margin-top: 2.5rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Buttons */
+    .btn-primary {
+      background: var(--teal); color: var(--white);
+      font-weight: 600; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(35, 175, 199, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(35, 175, 199, 0.45); }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.07); color: var(--white);
+      font-weight: 500; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+
+    /* Stats row */
+    .hero-stats {
+      margin-top: 3.5rem; display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap;
+    }
+    .stat-num { font-family: 'DM Serif Display', serif; font-size: 2rem; color: var(--teal); }
+    .stat-label { font-size: 0.82rem; color: var(--text-muted); margin-top: 0.25rem; }
+
+    /* Sections */
+    .section { padding: 6rem 5%; }
+    .section-alt { background: var(--graphite); }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; font-size: 0.75rem; font-weight: 700;
+      color: var(--teal); letter-spacing: 0.12em; margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: clamp(2rem, 4vw, 3rem); color: var(--white);
+      letter-spacing: -0.02em; line-height: 1.15;
+    }
+    h2 em { color: var(--teal); font-style: italic; }
+    .section-sub {
+      margin-top: 1rem; font-size: 1.05rem; color: var(--gray-light);
+      max-width: 650px; line-height: 1.7;
+    }
+
+    /* Card grid */
+    .card-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem; margin-top: 3rem;
+    }
+    .card {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      border-radius: 12px; padding: 2rem;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .card:hover { transform: translateY(-2px); border-color: rgba(35, 175, 199, 0.3); }
+    .card-icon { font-size: 1.8rem; margin-bottom: 1rem; }
+    .card h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.2rem; color: var(--white); margin-bottom: 0.75rem;
+    }
+    .card p { font-size: 0.92rem; color: var(--gray-light); line-height: 1.65; }
+
+    /* Steps */
+    .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 3rem; }
+    .step-num {
+      font-family: 'DM Serif Display', serif; font-size: 2.5rem;
+      color: var(--teal); opacity: 0.4; margin-bottom: 0.5rem;
+    }
+    .step h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.2rem; color: var(--white); margin-bottom: 0.75rem;
+    }
+    .step p { font-size: 0.92rem; color: var(--gray-light); line-height: 1.65; }
+
+    /* CTA section */
+    .cta-section { padding: 6rem 5%; text-align: center; }
+    .cta-section h2 { margin-bottom: 1rem; }
+    .cta-section p { color: var(--gray-light); font-size: 1.05rem; margin-bottom: 2rem; max-width: 550px; margin-left: auto; margin-right: auto; }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 5%;
+      border-top: 1px solid rgba(255, 255, 255, 0.07);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer img { height: 28px; opacity: 0.7; }
+    footer p { font-size: 0.8rem; color: var(--text-muted); }
+
+    /* Integration logo hero */
+    .integration-logos {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.5rem; margin-bottom: 2rem;
+    }
+    .integration-logos img { height: 52px; }
+    .integration-logos .connector {
+      width: 32px; height: 2px; background: rgba(35,175,199,0.4);
+      position: relative;
+    }
+    .integration-logos .connector::after {
+      content: ''; position: absolute; right: -4px; top: -3px;
+      border: 4px solid transparent;
+      border-left-color: rgba(35,175,199,0.4);
+    }
+
+    /* Animation */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .hero-content { animation: fadeUp 0.8s ease; }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 8rem 5% 4rem; }
+      .hero-stats { gap: 2rem; }
+      .section { padding: 4rem 5%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://know-why.ai/"><img class="logo" src="https://know-why.ai/logo.png" alt="know-why.ai" /></a>
+  <ul class="nav-links">
+    <li><a href="https://know-why.ai/">Home</a></li>
+    <li><a href="https://know-why.ai/pricing">Pricing</a></li>
+    <li><a href="https://know-why.ai/blog">Blog</a></li>
+    <li><a href="https://know-why.ai/about">About</a></li>
+    <li><a href="https://know-why.ai/#trial" class="nav-cta">Start Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+    <div class="integration-logos">
+      <img src="https://know-why.ai/logo.png" alt="Know Why" />
+      <div class="connector"></div>
+      <img src="https://zvhtpppwamqahiqbjgti.supabase.co/storage/v1/object/public/media/hubspot-logo-1772059881988.svg" alt="HubSpot" />
+    </div>
+    <div class="hero-badge">CRM Integration</div>
+    <h1>Win/loss intelligence,<br />inside <em>HubSpot</em></h1>
+    <p class="hero-sub">Connect Know Why with HubSpot to automatically trigger buyer interviews when deals close and sync structured insights directly to your deal records — no manual work required.</p>
+    <div class="hero-actions">
+      <a href="https://know-why.ai/#trial" class="btn-primary">Start Free</a>
+      <a href="#content" class="btn-secondary">See How It Works</a>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 1 -->
+<section class="section section-alt" id="content">
+  <div class="section-inner">
+    <p class="section-label">What It Does</p>
+    <h2>Your CRM, now with <em>buyer truth</em></h2>
+    <p class="section-sub">Know Why plugs directly into HubSpot so your deal data triggers interviews automatically — and the insights land right where your team already works.</p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">⚡</div>
+        <h3>Auto-Trigger on Deal Close</h3>
+        <p>When a deal is marked Closed Won or Closed Lost in HubSpot, Know Why automatically sends a personalized interview invitation to the buyer — zero manual steps.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📥</div>
+        <h3>Insights Written Back to Deals</h3>
+        <p>Interview summaries, win/loss reasons, and key themes are pushed directly to the HubSpot deal record — visible to sales, marketing, and leadership without leaving your CRM.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔄</div>
+        <h3>Real-Time Sync</h3>
+        <p>As soon as an interview completes and GPT-4 analyzes the response, the structured data flows back into HubSpot automatically. No waiting, no exports.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🎯</div>
+        <h3>Contact-Level Personalization</h3>
+        <p>Know Why pulls contact name, role, and deal context from HubSpot to craft interview invitations that feel personal — improving response rates significantly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 2 -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label">How It Works</p>
+    <h2>Set up once. <em>Runs forever.</em></h2>
+    <p class="section-sub">The HubSpot integration takes minutes to connect and requires no ongoing maintenance — it just works in the background as your team closes deals.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <h3>Connect Your HubSpot Account</h3>
+        <p>Authenticate your HubSpot portal from the Know Why integrations dashboard. We use OAuth — no API keys to manage, no developer needed.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <h3>Define Your Trigger</h3>
+        <p>Choose which deal stage changes fire an interview — typically Closed Won and Closed Lost. You can filter by pipeline, deal owner, or deal size.</p>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <h3>Insights Flow Back Automatically</h3>
+        <p>Once a buyer completes their interview, the AI-analyzed summary and structured win/loss data are written back to the HubSpot deal record in real time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SECTION 3 -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <p class="section-label">What You Get</p>
+    <h2>Intelligence your whole team <em>can use</em></h2>
+    <p class="section-sub">When win/loss data lives in HubSpot, it stops being a research project and starts being an operational asset — visible to every rep, manager, and marketer on your team.</p>
+    <div class="card-grid">
+      <div class="card">
+        <div class="card-icon">🏆</div>
+        <h3>Sales Coaching at Deal Level</h3>
+        <p>Managers can review buyer feedback on specific deals during rep 1:1s — grounded in the buyer's own words, not the rep's recollection.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>Win/Loss Reporting in HubSpot</h3>
+        <p>Build custom HubSpot reports using Know Why properties — track win/loss reasons by segment, rep, competitor, or time period without leaving your CRM.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚀</div>
+        <h3>Faster Onboarding for New Reps</h3>
+        <p>New team members can review closed deal feedback to understand what resonates with buyers — shortening ramp time with real deal intelligence.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <p class="section-label">Get Started</p>
+    <h2>Ready to know <em>why</em>?</h2>
+    <p>Connect Know Why to HubSpot and start capturing buyer feedback automatically — from every deal, every time.</p>
+    <a href="https://know-why.ai/#trial" class="btn-primary">Start Free</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="https://know-why.ai/logo.png" alt="know-why.ai" />
+  <p>&copy; 2026 know-why.ai</p>
+</footer>
+
+</body>
+</html>
