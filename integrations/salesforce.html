@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Salesforce Integration | Know Why — know-why.ai</title>
+  <meta name="description" content="Connect Know Why with Salesforce to automatically trigger buyer interviews when deals close. Win/loss intelligence that runs itself, direct from your CRM." />
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight: #1E3A5F;
+      --graphite: #2B3445;
+      --navy: #2A559B;
+      --teal: #23AFC7;
+      --teal-dark: #43C2D4;
+      --amber: #F4B740;
+      --gray-light: #D7E3EE;
+      --white: #FFFFFF;
+      --text-muted: #8fa8c4;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--midnight);
+      color: var(--gray-light);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 5%;
+      background: rgba(30, 58, 95, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { height: 54px; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 2.2rem; }
+    .nav-links a { font-size: 0.92rem; font-weight: 500; color: var(--gray-light); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+    .nav-cta {
+      background: var(--teal); color: var(--white) !important;
+      padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600;
+    }
+    .nav-cta:hover { background: var(--teal-dark); }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-block;
+      background: var(--teal); color: var(--white);
+      font-weight: 600; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(35, 175, 199, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(35, 175, 199, 0.45); }
+    .btn-secondary {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.07); color: var(--white);
+      font-weight: 500; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+
+    /* Hero */
+    .hero {
+      position: relative; padding: 10rem 5% 6rem;
+      text-align: center; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+    .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--teal); margin-bottom: 1.25rem;
+    }
+    .eyebrow a { color: var(--text-muted); transition: color 0.2s; }
+    .eyebrow a:hover { color: var(--teal); }
+    .eyebrow .sep { color: var(--text-muted); margin: 0 0.4rem; }
+
+    .integration-badge {
+      display: inline-flex; align-items: center; gap: 1rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 1rem 1.8rem;
+      margin-bottom: 2rem;
+    }
+    .badge-logo {
+      width: 48px; height: 48px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .badge-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .badge-kw {
+      background: var(--teal);
+      padding: 6px;
+    }
+    .badge-connector {
+      font-size: 1.4rem; color: var(--teal); font-weight: 300; line-height: 1;
+    }
+    .badge-label {
+      font-size: 0.88rem; color: var(--text-muted); margin-left: 0.25rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1.08;
+      color: var(--white); letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    h1 em { color: var(--teal); font-style: italic; }
+    .hero-sub {
+      font-size: 1.12rem; color: var(--gray-light);
+      max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Section shared */
+    .section { padding: 5rem 5%; }
+    .section-alt { background: var(--graphite); }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; font-size: 0.75rem; font-weight: 700;
+      color: var(--teal); letter-spacing: 0.12em; margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white);
+      letter-spacing: -0.02em; line-height: 1.2;
+    }
+    h2 em { color: var(--teal); font-style: italic; }
+
+    /* Why it matters */
+    .why-layout {
+      display: grid; grid-template-columns: 1fr 1.4fr;
+      gap: 4rem; align-items: start; margin-top: 3rem;
+    }
+    .why-text h2 { margin-bottom: 1rem; }
+    .why-text p { font-size: 0.97rem; line-height: 1.8; color: var(--gray-light); }
+    .stat-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat-card:hover { border-color: rgba(35,175,199,0.3); transform: translateY(-2px); }
+    .stat-card h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.05rem; color: var(--white); margin-bottom: 0.4rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .stat-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* How it works */
+    .steps-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 3rem; position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute; top: 20px; left: calc(16.67% + 20px); right: calc(16.67% + 20px);
+      height: 1px; background: linear-gradient(90deg, var(--teal), rgba(35,175,199,0.2), var(--teal));
+      z-index: 0;
+    }
+    .step-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 2rem 1.6rem;
+      position: relative; z-index: 1;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .step-card:hover { border-color: rgba(35,175,199,0.3); transform: translateY(-2px); }
+    .step-number {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(35,175,199,0.12); border: 1.5px solid var(--teal);
+      color: var(--teal); font-weight: 700; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .step-card h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.15rem; color: var(--white); margin-bottom: 0.6rem;
+    }
+    .step-card p { font-size: 0.9rem; color: var(--gray-light); line-height: 1.65; }
+
+    /* Features list */
+    .features-list {
+      margin-top: 2.5rem;
+      display: grid; grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 0.9rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px; padding: 1.4rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-item:hover { border-color: rgba(35,175,199,0.25); transform: translateY(-2px); }
+    .feature-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(35,175,199,0.15); border: 1px solid rgba(35,175,199,0.3);
+      color: var(--teal); font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 0.15rem;
+    }
+    .feature-item-text h4 {
+      font-weight: 600; font-size: 0.95rem; color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .feature-item-text p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; }
+    .feature-item.full-width { grid-column: 1 / -1; max-width: 560px; }
+
+    /* Use case cards */
+    .use-case-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem; margin-top: 2.5rem;
+    }
+    .use-case-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 2rem 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .use-case-card:hover { border-color: rgba(35,175,199,0.3); transform: translateY(-2px); }
+    .use-case-tag {
+      display: inline-block;
+      background: rgba(35,175,199,0.1); color: var(--teal);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 0.3rem 0.8rem;
+      border-radius: 20px; margin-bottom: 1rem;
+    }
+    .use-case-card h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.1rem; color: var(--white); margin-bottom: 0.6rem;
+    }
+    .use-case-card p { font-size: 0.88rem; color: var(--gray-light); line-height: 1.65; }
+
+    /* Requirements */
+    .requirements-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 2.5rem 2.5rem;
+      margin-top: 2rem; max-width: 680px;
+    }
+    .requirements-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .requirements-list li {
+      display: flex; align-items: center; gap: 0.9rem;
+      font-size: 0.97rem; color: var(--gray-light);
+    }
+    .req-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+    }
+
+    /* CTA section */
+    .cta-section {
+      padding: 6rem 5%; text-align: center;
+      background: linear-gradient(180deg, var(--midnight) 0%, rgba(35,175,199,0.05) 100%);
+    }
+    .cta-section h2 { margin-bottom: 1rem; }
+    .cta-section p {
+      color: var(--gray-light); font-size: 1.05rem;
+      margin-bottom: 2rem; max-width: 500px;
+      margin-left: auto; margin-right: auto; line-height: 1.7;
+    }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 5%;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer img { height: 28px; opacity: 0.7; }
+    footer p { font-size: 0.8rem; color: var(--text-muted); }
+
+    @media (max-width: 900px) {
+      .why-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .steps-grid { grid-template-columns: 1fr; max-width: 420px; margin: 2rem auto 0; }
+      .steps-grid::before { display: none; }
+      .features-list { grid-template-columns: 1fr; }
+      .feature-item.full-width { max-width: 100%; }
+      .use-case-grid { grid-template-columns: 1fr; max-width: 420px; margin: 2rem auto 0; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 8rem 5% 4rem; }
+      .section { padding: 3.5rem 5%; }
+      .integration-badge { flex-wrap: wrap; justify-content: center; }
+      footer { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://know-why.ai/"><img class="logo" src="https://know-why.ai/logo.png" alt="know-why.ai" /></a>
+  <ul class="nav-links">
+    <li><a href="https://know-why.ai/">Home</a></li>
+    <li><a href="https://know-why.ai/pricing">Pricing</a></li>
+    <li><a href="https://know-why.ai/blog">Blog</a></li>
+    <li><a href="https://know-why.ai/about">About</a></li>
+    <li><a href="https://know-why.ai/#trial" class="nav-cta">Start Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+
+    <div class="eyebrow">
+      <a href="/integrations">Integrations</a>
+      <span class="sep">→</span>
+      Salesforce
+    </div>
+
+    <div class="integration-badge">
+      <div class="badge-logo badge-kw">
+        <img src="https://zvhtpppwamqahiqbjgti.supabase.co/storage/v1/object/public/media/know-why-icon-1772059804081.png" alt="Know Why" />
+      </div>
+      <span class="badge-connector">+</span>
+      <div class="badge-logo" style="background:#fff; padding:6px;">
+        <img src="https://zvhtpppwamqahiqbjgti.supabase.co/storage/v1/object/public/media/salesforce-logo-1772059898610.svg" alt="Salesforce" />
+      </div>
+      <span class="badge-label">Know Why × Salesforce</span>
+    </div>
+
+    <h1>Your CRM closes the deal. <em>We find out</em> why.</h1>
+    <p class="hero-sub">Connect Know Why with Salesforce to automatically trigger buyer interviews the moment a deal is marked Closed Won or Closed Lost — no manual work, no missed opportunities.</p>
+    <div class="hero-actions">
+      <a href="https://know-why.ai/#trial" class="btn-primary">Start Free</a>
+      <a href="/integrations" class="btn-secondary">View all integrations</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY IT MATTERS -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="why-layout">
+      <div class="why-text">
+        <p class="section-label">Why It Matters</p>
+        <h2>Win/loss intel starts in your CRM</h2>
+        <p style="margin-top:1rem;">Salesforce is where your deals live — and where win/loss programs die. Reps forget to flag deals for review, ops teams manually export lists, and by the time someone reaches out to a buyer it's been weeks. The Know Why integration closes that gap. The moment a deal stage changes, the interview is already on its way.</p>
+      </div>
+      <div class="stat-cards">
+        <div class="stat-card">
+          <h3>⚡ Zero-touch triggering</h3>
+          <p>No reps, no reminders, no spreadsheets. Interviews fire automatically when Closed Won or Closed Lost is set.</p>
+        </div>
+        <div class="stat-card">
+          <h3>🎯 Full deal context</h3>
+          <p>Know Why pulls deal name, amount, owner, and competitor fields directly from Salesforce to personalize every interview.</p>
+        </div>
+        <div class="stat-card">
+          <h3>📊 Insights back in Salesforce</h3>
+          <p>Interview summaries and win/loss reasons sync back to the opportunity record — no dashboard-hopping required.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label">How It Works</p>
+    <h2>Connect once. Intelligence runs forever.</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Connect</h3>
+        <p>Authenticate your Salesforce org in Know Why with a few clicks. No engineering, no custom code.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Configure</h3>
+        <p>Choose which deal stages trigger interviews, map Salesforce fields to interview context, and set your timing rules.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Automate</h3>
+        <p>Every time a deal closes, Know Why sends a personalized interview invitation to the buyer and syncs results back to the opportunity.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY FEATURES -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <p class="section-label">Key Features</p>
+    <h2>Built for revenue teams running <em>Salesforce</em></h2>
+    <div class="features-list">
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Opportunity stage triggers</h4>
+          <p>Automatically launch interviews when deals hit Closed Won, Closed Lost, or any custom stage you define.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Dynamic interview personalization</h4>
+          <p>Pull deal name, account, owner, and competitor data from Salesforce fields to make every buyer conversation feel tailored.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Bi-directional sync</h4>
+          <p>Interview summaries, win/loss reasons, and buyer sentiment write back to the Salesforce opportunity record automatically.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Rep &amp; team attribution</h4>
+          <p>Filter insights by rep, team, region, or deal size — all using the data already in your Salesforce org.</p>
+        </div>
+      </div>
+      <div class="feature-item full-width">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Contact deduplication</h4>
+          <p>Know Why matches buyers to existing Salesforce contacts so you never send duplicate invitations or create orphaned records.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label">Use Cases</p>
+    <h2>For every GTM team that runs on <em>Salesforce</em></h2>
+    <div class="use-case-grid">
+      <div class="use-case-card">
+        <div class="use-case-tag">Sales Leaders</div>
+        <h3>Know why every deal was won or lost</h3>
+        <p>Stop relying on rep recall. Get candid buyer feedback on every closed deal, automatically surfaced in the opportunities you already track.</p>
+      </div>
+      <div class="use-case-card">
+        <div class="use-case-tag">Product Marketing</div>
+        <h3>Turn deal data into competitive intel</h3>
+        <p>Map buyer objections and competitor mentions back to Salesforce opportunity fields to spot patterns across your entire pipeline.</p>
+      </div>
+      <div class="use-case-card">
+        <div class="use-case-tag">Revenue Operations</div>
+        <h3>Automate your win/loss program end-to-end</h3>
+        <p>No manual lists, no chasing reps, no spreadsheet exports. Set it up once and let the integration handle every deal from close to insight.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUIREMENTS -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <p class="section-label">Requirements</p>
+    <h2>What you'll need</h2>
+    <div class="requirements-box">
+      <ul class="requirements-list">
+        <li>
+          <div class="req-dot"></div>
+          A Know Why account (any paid plan)
+        </li>
+        <li>
+          <div class="req-dot"></div>
+          Salesforce Professional, Enterprise, or Unlimited edition
+        </li>
+        <li>
+          <div class="req-dot"></div>
+          Salesforce System Administrator access to authorize the connection
+        </li>
+        <li>
+          <div class="req-dot"></div>
+          About 10 minutes to connect, map fields, and go live
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <p class="section-label">Get Started</p>
+    <h2>Ready to know why every deal <em>really</em> closed?</h2>
+    <p>Start your free Know Why trial and connect Salesforce in minutes.</p>
+    <div class="cta-actions">
+      <a href="https://know-why.ai/#trial" class="btn-primary">Start Free</a>
+      <a href="/integrations" class="btn-secondary">View all integrations</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="https://know-why.ai/"><img src="https://know-why.ai/logo.png" alt="know-why.ai" /></a>
+  <p>&copy; 2026 know-why.ai</p>
+</footer>
+
+</body>
+</html>
