@@ -29,6 +29,9 @@
       --gray-light: #D7E3EE;
       --white: #FFFFFF;
       --text-muted: #8fa8c4;
+      --red-dim: #7f3a3a;
+      --red-text: #f87171;
+      --red-bg: rgba(127, 29, 29, 0.18);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -139,15 +142,15 @@
     .pricing-section {
       position: relative;
       z-index: 1;
-      max-width: 1100px;
+      max-width: 1200px;
       margin: 0 auto;
       padding: 48px 24px 32px;
     }
 
     .pricing-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
       align-items: stretch;
     }
 
@@ -155,10 +158,11 @@
       background: var(--graphite);
       border: 1px solid rgba(255, 255, 255, 0.07);
       border-radius: 16px;
-      padding: 40px 32px 36px;
+      padding: 40px 28px 36px;
       display: flex;
       flex-direction: column;
       transition: transform 0.25s ease, border-color 0.25s ease;
+      position: relative;
     }
 
     .pricing-card:hover {
@@ -166,9 +170,89 @@
       border-color: rgba(35, 175, 199, 0.3);
     }
 
+    /* ── Old Way card ── */
+    .pricing-card.old-way {
+      background: rgba(20, 12, 12, 0.55);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      opacity: 0.92;
+    }
+
+    .pricing-card.old-way:hover {
+      transform: translateY(-4px);
+      border-color: rgba(239, 68, 68, 0.4);
+    }
+
+    .old-way .plan-name {
+      color: var(--red-text) !important;
+    }
+
+    .old-way .price {
+      color: rgba(255,255,255,0.4) !important;
+      text-decoration: line-through;
+      text-decoration-color: var(--red-text);
+    }
+
+    .old-way .price-unit {
+      color: rgba(255,255,255,0.3) !important;
+    }
+
+    .old-way .features-label {
+      color: var(--red-text) !important;
+    }
+
+    .old-way .divider {
+      background: rgba(239, 68, 68, 0.15) !important;
+    }
+
+    .old-way-badge {
+      display: inline-block;
+      background: var(--red-bg);
+      color: var(--red-text);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.4px;
+      padding: 4px 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+    }
+
+    .check-x {
+      flex-shrink: 0;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: rgba(239, 68, 68, 0.12);
+      color: var(--red-text);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 1px;
+    }
+
+    .old-way .features li {
+      color: rgba(215, 227, 238, 0.5);
+    }
+
+    .cta-ghost {
+      display: block;
+      text-align: center;
+      padding: 14px;
+      border-radius: 10px;
+      font-weight: 500;
+      font-size: 14px;
+      color: rgba(255,255,255,0.25);
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,0.08);
+      cursor: default;
+      letter-spacing: 0.01em;
+    }
+
+    /* ── Featured card ── */
     .pricing-card.featured {
       border-color: var(--teal);
-      position: relative;
       background: linear-gradient(170deg, var(--graphite) 0%, rgba(35, 175, 199, 0.06) 100%);
     }
 
@@ -185,6 +269,7 @@
       letter-spacing: 1.2px;
       padding: 5px 20px;
       border-radius: 20px;
+      white-space: nowrap;
     }
 
     .plan-name {
@@ -200,6 +285,10 @@
       color: var(--text-muted);
       margin-bottom: 28px;
       line-height: 1.5;
+    }
+
+    .old-way .plan-desc {
+      color: rgba(143, 168, 196, 0.5);
     }
 
     .price-row {
@@ -412,7 +501,15 @@
     footer p { font-size: 0.8rem; color: var(--text-muted); }
 
     /* ── Responsive ── */
-    @media (max-width: 820px) {
+    @media (max-width: 1024px) {
+      .pricing-grid {
+        grid-template-columns: repeat(2, 1fr);
+        max-width: 720px;
+        margin: 0 auto;
+      }
+    }
+
+    @media (max-width: 600px) {
       .pricing-grid {
         grid-template-columns: 1fr;
         max-width: 420px;
@@ -426,9 +523,7 @@
       }
 
       nav { padding: 1rem 5%; }
-
       .nav-links { gap: 20px; }
-
       footer { justify-content: center; text-align: center; }
     }
   </style>
@@ -458,7 +553,28 @@
   <section class="pricing-section">
     <div class="pricing-grid">
 
-      <!-- Free -->
+      <!-- The Old Way -->
+      <div class="pricing-card old-way">
+        <div class="old-way-badge">The Old Way</div>
+        <div class="plan-name">Human-Led Program</div>
+        <div class="plan-desc">Agencies, consultants, or in-house teams conducting buyer interviews manually.</div>
+        <div class="price-row">
+          <span class="price">$5k+</span>
+          <span class="price-unit">/mo</span>
+        </div>
+        <div class="divider"></div>
+        <div class="features-label">What you're dealing with</div>
+        <ul class="features">
+          <li><span class="check-x">✕</span> $1,000+ per interview</li>
+          <li><span class="check-x">✕</span> Weeks to schedule &amp; complete</li>
+          <li><span class="check-x">✕</span> Interviewer bias in every response</li>
+          <li><span class="check-x">✕</span> Manual synthesis &amp; reporting</li>
+          <li><span class="check-x">✕</span> Coverage for top deals only</li>
+        </ul>
+        <div class="cta-ghost">Sounds exhausting</div>
+      </div>
+
+      <!-- Starter -->
       <div class="pricing-card">
         <div class="plan-name">Starter</div>
         <div class="plan-desc">Get started with buyer interviews — no credit card required.</div>
