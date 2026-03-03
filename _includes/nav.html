@@ -1,0 +1,11 @@
+<nav>
+  <a href="/"><img class="logo" src="/logo.png" alt="know-why.ai — AI-powered win/loss intelligence" /></a>
+  <ul class="nav-links">
+    <li><a href="/"{% if page.url == '/' or page.url == '/index.html' %} class="active"{% endif %}>Home</a></li>
+    <li><a href="/pricing"{% if page.url == '/pricing' or page.url == '/pricing.html' %} class="active"{% endif %}>Pricing</a></li>
+    <li><a href="/integrations"{% if page.url == '/integrations' or page.url == '/integrations.html' %} class="active"{% endif %}>Integrations</a></li>
+    <li><a href="/blog"{% if page.url == '/blog' or page.url == '/blog/' or page.layout == 'post' %} class="active"{% endif %}>Blog</a></li>
+    <li><a href="/about"{% if page.url == '/about' or page.url == '/about.html' %} class="active"{% endif %}>About</a></li>
+    <li><a href="/#trial" class="nav-cta">Start Free</a></li>
+  </ul>
+</nav>
