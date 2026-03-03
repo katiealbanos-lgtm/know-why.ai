@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Slack Integration | Know Why — know-why.ai</title>
+  <meta name="description" content="Connect Know Why with Slack to deliver win/loss insights directly to your team's channels. Get instant alerts when buyer interviews complete — no dashboards required." />
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --midnight: #1E3A5F;
+      --graphite: #2B3445;
+      --navy: #2A559B;
+      --teal: #23AFC7;
+      --teal-dark: #43C2D4;
+      --amber: #F4B740;
+      --gray-light: #D7E3EE;
+      --white: #FFFFFF;
+      --text-muted: #8fa8c4;
+    }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--midnight);
+      color: var(--gray-light);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { text-decoration: none; color: inherit; }
+
+    /* Nav */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 5%;
+      background: rgba(30, 58, 95, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .logo { height: 54px; }
+    .nav-links { list-style: none; display: flex; align-items: center; gap: 2.2rem; }
+    .nav-links a { font-size: 0.92rem; font-weight: 500; color: var(--gray-light); transition: color 0.2s; }
+    .nav-links a:hover, .nav-links a.active { color: var(--teal); }
+    .nav-cta {
+      background: var(--teal); color: var(--white) !important;
+      padding: 0.5rem 1.2rem; border-radius: 6px; font-weight: 600;
+    }
+    .nav-cta:hover { background: var(--teal-dark); }
+
+    /* Buttons */
+    .btn-primary {
+      display: inline-block;
+      background: var(--teal); color: var(--white);
+      font-weight: 600; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(35, 175, 199, 0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 25px rgba(35, 175, 199, 0.45); }
+    .btn-secondary {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.07); color: var(--white);
+      font-weight: 500; font-size: 1rem;
+      padding: 0.9rem 2rem; border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.12); }
+
+    /* Hero */
+    .hero {
+      position: relative; padding: 10rem 5% 6rem;
+      text-align: center; overflow: hidden;
+    }
+    .hero-grid {
+      position: absolute; inset: 0;
+      background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+                        linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at center, black 30%, transparent 70%);
+    }
+    .hero-content { position: relative; max-width: 800px; margin: 0 auto; }
+
+    .eyebrow {
+      font-size: 0.75rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--teal); margin-bottom: 1.25rem;
+    }
+    .eyebrow a { color: var(--text-muted); transition: color 0.2s; }
+    .eyebrow a:hover { color: var(--teal); }
+    .eyebrow .sep { color: var(--text-muted); margin: 0 0.4rem; }
+
+    .integration-badge {
+      display: inline-flex; align-items: center; gap: 1rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 16px; padding: 1rem 1.8rem;
+      margin-bottom: 2rem;
+    }
+    .badge-logo {
+      width: 48px; height: 48px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .badge-logo img { width: 100%; height: 100%; object-fit: contain; }
+    .badge-kw {
+      background: var(--teal);
+      padding: 6px;
+    }
+    .badge-connector {
+      font-size: 1.4rem; color: var(--teal); font-weight: 300; line-height: 1;
+    }
+    .badge-label {
+      font-size: 0.88rem; color: var(--text-muted); margin-left: 0.25rem;
+    }
+
+    h1 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: clamp(2.8rem, 6vw, 4.5rem); line-height: 1.08;
+      color: var(--white); letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+    }
+    h1 em { color: var(--teal); font-style: italic; }
+    .hero-sub {
+      font-size: 1.12rem; color: var(--gray-light);
+      max-width: 580px; margin: 0 auto 2.5rem; line-height: 1.7;
+    }
+    .hero-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Section shared */
+    .section { padding: 5rem 5%; }
+    .section-alt { background: var(--graphite); }
+    .section-inner { max-width: 1100px; margin: 0 auto; }
+    .section-label {
+      text-transform: uppercase; font-size: 0.75rem; font-weight: 700;
+      color: var(--teal); letter-spacing: 0.12em; margin-bottom: 1rem;
+    }
+    h2 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: clamp(1.8rem, 3.5vw, 2.6rem); color: var(--white);
+      letter-spacing: -0.02em; line-height: 1.2;
+    }
+    h2 em { color: var(--teal); font-style: italic; }
+
+    /* Why it matters — two column */
+    .why-layout {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: 4rem;
+      align-items: start;
+      margin-top: 3rem;
+    }
+    .why-text .section-label { margin-bottom: 1rem; }
+    .why-text h2 { margin-bottom: 1rem; }
+    .why-text p { font-size: 0.97rem; line-height: 1.8; color: var(--gray-light); }
+    .stat-cards { display: flex; flex-direction: column; gap: 1rem; }
+    .stat-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px; padding: 1.4rem 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .stat-card:hover { border-color: rgba(35,175,199,0.3); transform: translateY(-2px); }
+    .stat-card h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.05rem; color: var(--white); margin-bottom: 0.4rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .stat-card p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* How it works — 3 steps in one row */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+      position: relative;
+    }
+    .steps-grid::before {
+      content: '';
+      position: absolute; top: 20px;
+      left: calc(16.67% + 20px); right: calc(16.67% + 20px);
+      height: 1px;
+      background: linear-gradient(90deg, var(--teal), rgba(35,175,199,0.2), var(--teal));
+      z-index: 0;
+    }
+    .step-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 2rem 1.6rem;
+      position: relative; z-index: 1;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .step-card:hover { border-color: rgba(35,175,199,0.3); transform: translateY(-2px); }
+    .step-number {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: rgba(35,175,199,0.12); border: 1.5px solid var(--teal);
+      color: var(--teal); font-weight: 700; font-size: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.2rem;
+    }
+    .step-card h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.15rem; color: var(--white); margin-bottom: 0.6rem;
+    }
+    .step-card p { font-size: 0.9rem; color: var(--gray-light); line-height: 1.65; }
+
+    /* Key Features — 2 columns, 3 left / 2 right */
+    .features-list {
+      margin-top: 2.5rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+    .feature-item {
+      display: flex; align-items: flex-start; gap: 0.9rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 12px; padding: 1.4rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .feature-item:hover { border-color: rgba(35,175,199,0.25); transform: translateY(-2px); }
+    .feature-check {
+      width: 22px; height: 22px; border-radius: 50%;
+      background: rgba(35,175,199,0.15); border: 1px solid rgba(35,175,199,0.3);
+      color: var(--teal); font-size: 0.72rem; font-weight: 700;
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0; margin-top: 0.15rem;
+    }
+    .feature-item-text h4 {
+      font-weight: 600; font-size: 0.95rem; color: var(--white);
+      margin-bottom: 0.3rem;
+    }
+    .feature-item-text p { font-size: 0.86rem; color: var(--text-muted); line-height: 1.6; }
+
+    /* Use Cases — 3 cards side by side */
+    .use-case-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 2.5rem;
+    }
+    .use-case-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 14px; padding: 2rem 1.6rem;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .use-case-card:hover { border-color: rgba(35,175,199,0.3); transform: translateY(-2px); }
+    .use-case-tag {
+      display: inline-block;
+      background: rgba(35,175,199,0.1); color: var(--teal);
+      font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em;
+      text-transform: uppercase; padding: 0.3rem 0.8rem;
+      border-radius: 20px; margin-bottom: 1rem;
+    }
+    .use-case-card h3 {
+      font-family: 'DM Serif Display', serif; font-weight: 400;
+      font-size: 1.1rem; color: var(--white); margin-bottom: 0.6rem;
+    }
+    .use-case-card p { font-size: 0.88rem; color: var(--gray-light); line-height: 1.65; }
+
+    /* Requirements */
+    .requirements-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 2.5rem;
+      margin-top: 2rem; max-width: 680px;
+    }
+    .requirements-list {
+      list-style: none;
+      display: flex; flex-direction: column; gap: 1rem;
+    }
+    .requirements-list li {
+      display: flex; align-items: center; gap: 0.9rem;
+      font-size: 0.97rem; color: var(--gray-light);
+    }
+    .req-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--teal); flex-shrink: 0;
+    }
+
+    /* CTA section */
+    .cta-section {
+      padding: 6rem 5%; text-align: center;
+      background: linear-gradient(180deg, var(--midnight) 0%, rgba(35,175,199,0.05) 100%);
+    }
+    .cta-section h2 { margin-bottom: 1rem; }
+    .cta-section p {
+      color: var(--gray-light); font-size: 1.05rem;
+      margin-bottom: 2rem; max-width: 500px;
+      margin-left: auto; margin-right: auto; line-height: 1.7;
+    }
+    .cta-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 5%;
+      border-top: 1px solid rgba(255,255,255,0.07);
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    footer img { height: 28px; opacity: 0.7; }
+    footer p { font-size: 0.8rem; color: var(--text-muted); }
+
+    @media (max-width: 900px) {
+      .why-layout { grid-template-columns: 1fr; gap: 2rem; }
+      .steps-grid { grid-template-columns: 1fr; max-width: 420px; margin: 2rem auto 0; }
+      .steps-grid::before { display: none; }
+      .features-list { grid-template-columns: 1fr; }
+      .use-case-grid { grid-template-columns: 1fr; max-width: 420px; margin: 2rem auto 0; }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hero { padding: 8rem 5% 4rem; }
+      .section { padding: 3.5rem 5%; }
+      .integration-badge { flex-wrap: wrap; justify-content: center; }
+      footer { justify-content: center; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="https://know-why.ai/"><img class="logo" src="https://know-why.ai/logo.png" alt="know-why.ai" /></a>
+  <ul class="nav-links">
+    <li><a href="https://know-why.ai/">Home</a></li>
+    <li><a href="https://know-why.ai/pricing">Pricing</a></li>
+    <li><a href="https://know-why.ai/blog">Blog</a></li>
+    <li><a href="https://know-why.ai/about">About</a></li>
+    <li><a href="https://know-why.ai/#trial" class="nav-cta">Start Free</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-content">
+
+    <div class="eyebrow">
+      <a href="/integrations">Integrations</a>
+      <span class="sep">→</span>
+      Slack
+    </div>
+
+    <div class="integration-badge">
+      <div class="badge-logo badge-kw">
+        <img src="https://zvhtpppwamqahiqbjgti.supabase.co/storage/v1/object/public/media/know-why-icon-1772059804081.png" alt="Know Why" />
+      </div>
+      <span class="badge-connector">+</span>
+      <div class="badge-logo" style="background:#fff; padding:6px;">
+        <img src="https://zvhtpppwamqahiqbjgti.supabase.co/storage/v1/object/public/media/slack-logo-1772059938279.svg" alt="Slack" />
+      </div>
+      <span class="badge-label">Know Why × Slack</span>
+    </div>
+
+    <h1>Win/loss insights, <em>delivered</em> to Slack.</h1>
+    <p class="hero-sub">Connect Know Why with Slack to push buyer interview results directly to your team's channels — the moment they're ready. No dashboards to check, no insights that go unread.</p>
+    <div class="hero-actions">
+      <a href="https://know-why.ai/#trial" class="btn-primary">Start Free</a>
+      <a href="/integrations" class="btn-secondary">View all integrations</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- WHY IT MATTERS -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <div class="why-layout">
+      <div class="why-text">
+        <p class="section-label">Why It Matters</p>
+        <h2>Insights only create value when people <em>see them</em></h2>
+        <p style="margin-top:1rem;">Most win/loss data lives in a dashboard nobody visits. By pushing structured buyer feedback directly into Slack the moment an interview completes, Know Why makes sure the right people — sales, marketing, product — see and act on insights while deals are still fresh in everyone's minds.</p>
+      </div>
+      <div class="stat-cards">
+        <div class="stat-card">
+          <h3>⚡ Instant delivery</h3>
+          <p>Interview results hit your Slack channel within minutes of completion. No manual exports, no waiting for a weekly report.</p>
+        </div>
+        <div class="stat-card">
+          <h3>💬 Always in context</h3>
+          <p>Your team is already in Slack. Bringing win/loss intelligence to where work happens means faster discussions, faster decisions.</p>
+        </div>
+        <div class="stat-card">
+          <h3>📈 Learn from every deal</h3>
+          <p>When the whole team sees buyer feedback — not just one person — patterns get spotted faster and your GTM motion improves deal over deal.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label">How It Works</p>
+    <h2>Set it up once. Insights flow <em>automatically.</em></h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Connect</h3>
+        <p>Link your Slack workspace to Know Why in minutes. Authorize the app and select which channels should receive notifications.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Configure</h3>
+        <p>Choose what gets posted — interview summaries, key themes, win/loss verdicts, or all of the above. Route by deal type, team, or outcome.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Receive</h3>
+        <p>When a buyer completes an interview, a structured summary is posted to your chosen channel automatically — no action required from your team.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- KEY FEATURES -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <p class="section-label">Key Features</p>
+    <h2>Everything your team needs to <em>stay informed</em></h2>
+    <div class="features-list">
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Structured interview summaries</h4>
+          <p>Each Slack message includes a clean, readable summary of buyer feedback — not a wall of raw text.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Win/loss outcome tagging</h4>
+          <p>Messages are clearly labeled as a win or loss so your team can instantly orient on what they're reading.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Channel routing by deal type</h4>
+          <p>Send competitive losses to your competitive intel channel, wins to your sales channel. Keep the right signal with the right audience.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Key themes highlighted</h4>
+          <p>GPT-4 analysis surfaces the top reasons behind each outcome — surfaced directly in the Slack message, no click-through required.</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <div class="feature-check">✓</div>
+        <div class="feature-item-text">
+          <h4>Deep link to full interview</h4>
+          <p>Every Slack notification links back to the full interview and transcript in your Know Why dashboard for anyone who wants to dig deeper.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="section">
+  <div class="section-inner">
+    <p class="section-label">Use Cases</p>
+    <h2>Built for every GTM team <em>in the loop</em></h2>
+    <div class="use-case-grid">
+      <div class="use-case-card">
+        <div class="use-case-tag">Sales Teams</div>
+        <h3>Debrief deals while they're still fresh</h3>
+        <p>Get buyer feedback posted to your #sales channel the same day a deal closes. Reps learn what worked and what didn't before they've moved on to the next opportunity.</p>
+      </div>
+      <div class="use-case-card">
+        <div class="use-case-tag">Marketing &amp; PMM</div>
+        <h3>Spot messaging gaps in real time</h3>
+        <p>Every interview that mentions a competitor or a positioning miss lands in your channel automatically. No more waiting for a quarterly review to find out your messaging isn't landing.</p>
+      </div>
+      <div class="use-case-card">
+        <div class="use-case-tag">Product</div>
+        <h3>Hear from buyers without scheduling calls</h3>
+        <p>Product teams get structured buyer feedback routed directly to them — feature requests, friction points, and unmet needs surfaced without a single meeting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REQUIREMENTS -->
+<section class="section section-alt">
+  <div class="section-inner">
+    <p class="section-label">Requirements</p>
+    <h2>What you'll need</h2>
+    <div class="requirements-box">
+      <ul class="requirements-list">
+        <li>
+          <div class="req-dot"></div>
+          A Know Why account (any paid plan)
+        </li>
+        <li>
+          <div class="req-dot"></div>
+          A Slack workspace (any plan)
+        </li>
+        <li>
+          <div class="req-dot"></div>
+          Slack admin permissions to install the Know Why app
+        </li>
+        <li>
+          <div class="req-dot"></div>
+          5 minutes to connect and configure your channels
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="cta-section">
+  <div class="section-inner">
+    <p class="section-label">Get Started</p>
+    <h2>Ready to bring win/loss intelligence <em>to your team?</em></h2>
+    <p>Start your free Know Why trial and connect Slack in minutes.</p>
+    <div class="cta-actions">
+      <a href="https://know-why.ai/#trial" class="btn-primary">Start Free</a>
+      <a href="/integrations" class="btn-secondary">View all integrations</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="https://know-why.ai/"><img src="https://know-why.ai/logo.png" alt="know-why.ai" /></a>
+  <p>&copy; 2026 know-why.ai</p>
+</footer>
+
+</body>
+</html>
