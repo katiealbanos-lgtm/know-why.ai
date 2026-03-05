@@ -1,5 +1,14 @@
 <nav>
   <a href="/"><img class="logo" src="/logo.png" alt="know-why.ai — AI-powered win/loss intelligence" /></a>
+
+  <!-- Hamburger toggle (CSS-only) -->
+  <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-hidden="true">
+  <label for="nav-toggle" class="nav-hamburger" aria-label="Toggle menu">
+    <span></span>
+    <span></span>
+    <span></span>
+  </label>
+
   <ul class="nav-links">
     <li><a href="/"{% if page.url == '/' or page.url == '/index.html' %} class="active"{% endif %}>Home</a></li>
     <li><a href="/pricing"{% if page.url == '/pricing' or page.url == '/pricing.html' %} class="active"{% endif %}>Pricing</a></li>

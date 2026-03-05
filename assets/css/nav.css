@@ -49,12 +49,112 @@ nav img.logo { height: 54px; }
 
 .nav-cta:hover { background: var(--teal-dark); transform: translateY(-1px); }
 
-@media (max-width: 900px) {
-  nav { padding: 1rem 5%; }
-  .nav-links { gap: 20px; }
+/* ── Hamburger: hidden on desktop ── */
+.nav-toggle {
+  display: none;
 }
 
-@media (max-width: 600px) {
-  .nav-links { gap: 14px; }
-  .nav-links a { font-size: 13px; }
+.nav-hamburger {
+  display: none;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 28px;
+  height: 28px;
+  z-index: 110;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 100%;
+  height: 2px;
+  background: var(--gray-light);
+  border-radius: 2px;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  transform-origin: center;
+}
+
+/* ── Mobile: 768px breakpoint ── */
+@media (max-width: 768px) {
+
+  .nav-hamburger {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    background: rgba(30, 58, 95, 0.97);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 2rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+    z-index: 105;
+  }
+
+  .nav-links li {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .nav-links a {
+    font-size: 20px;
+    padding: 0.75rem 0;
+    display: block;
+  }
+
+  .nav-cta {
+    margin-top: 1rem;
+    font-size: 1rem;
+    padding: 0.75rem 2rem;
+  }
+
+  /* When checkbox is checked: open menu */
+  .nav-toggle:checked ~ .nav-links {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-toggle:checked ~ .nav-links li {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger list items */
+  .nav-toggle:checked ~ .nav-links li:nth-child(1) { transition-delay: 0.05s; }
+  .nav-toggle:checked ~ .nav-links li:nth-child(2) { transition-delay: 0.10s; }
+  .nav-toggle:checked ~ .nav-links li:nth-child(3) { transition-delay: 0.15s; }
+  .nav-toggle:checked ~ .nav-links li:nth-child(4) { transition-delay: 0.20s; }
+  .nav-toggle:checked ~ .nav-links li:nth-child(5) { transition-delay: 0.25s; }
+  .nav-toggle:checked ~ .nav-links li:nth-child(6) { transition-delay: 0.30s; }
+
+  /* Hamburger -> X animation */
+  .nav-toggle:checked ~ .nav-hamburger span:nth-child(1) {
+    transform: translateY(7px) rotate(45deg);
+  }
+
+  .nav-toggle:checked ~ .nav-hamburger span:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle:checked ~ .nav-hamburger span:nth-child(3) {
+    transform: translateY(-7px) rotate(-45deg);
+  }
+}
+
+/* ── Small mobile fine-tuning ── */
+@media (max-width: 480px) {
+  nav { padding: 0.75rem 5%; }
+  nav img.logo { height: 42px; }
 }
