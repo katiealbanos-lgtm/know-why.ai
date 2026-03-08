@@ -104,6 +104,8 @@ The challenge with traditional win/loss interviews is scale. If you're closing 5
 
 This is where AI-powered platforms are changing the game. Tools like [know-why.ai](https://know-why.ai) can conduct personalized, adaptive interviews at scale — asking the smart follow-up questions that surface the real "why" behind every deal outcome. Instead of covering 10% of your closed deals, you can capture intelligence from every single one.
 
+Explore [Know Why's pricing](/pricing) to see how it fits your program.
+
 ## From Data to Decisions
 
 The goal isn't just better data — it's better decisions. When you know the real reasons behind your wins and losses, you can:
@@ -112,6 +114,13 @@ The goal isn't just better data — it's better decisions. When you know the rea
 - **Enable your sales team** with competitive intelligence that reflects reality, not assumptions
 - **Prioritize your product roadmap** based on what buyers actually need, not what reps think they need
 - **Fix your sales process** by identifying where deals actually break down
+
+---
+
+**Related reading:**
+- [Complete Guide to Win/Loss Analysis for B2B SaaS Companies](/blog/complete-guide-to-win-loss-analysis-for-b2b-saas-companies/)
+- [The Win/Loss Interview Questions Your Competitors Hope You Never Ask](/blog/win-loss-interview-questions-your-competitors-hope-you-never-ask/)
+- [What AI Sales Forecasting Tools Get Wrong (And What Buyer Intelligence Gets Right)](/blog/what-ai-sales-forecasting-tools-get-wrong/)
 
 Your CRM will always be part of the picture. But it shouldn't be the whole picture. The companies that consistently outperform their competitors are the ones that go beyond the dropdown and build a direct line to buyer truth.
 
