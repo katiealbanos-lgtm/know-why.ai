@@ -161,17 +161,41 @@ def parse_generated_content(content):
     content = re.sub(r'^```(?:markdown|yaml)?\n', '', content)
     content = re.sub(r'\n```$', '', content.rstrip())
 
+    # Reject HTML output — the model must produce Jekyll Markdown, not raw HTML
+    if "<!DOCTYPE" in content or "<html" in content:
+        raise ValueError(
+            "Generated content is raw HTML instead of Jekyll Markdown. "
+            "The system prompt requires YAML front matter + Markdown body."
+        )
+
     if not content.startswith("---"):
         raise ValueError("Generated content missing front matter")
 
     fm_end = content.index("---", 3)
     fm = yaml.safe_load(content[3:fm_end])
 
+    # Validate required front matter fields
+    required_fields = ["title", "description", "date", "category", "author", "reading_time"]
+    missing = [f for f in required_fields if not fm.get(f)]
+    if missing:
+        raise ValueError(f"Front matter missing required fields: {', '.join(missing)}")
+
+    # Warn if body contains significant HTML (a few inline tags are OK, but
+    # full blocks like <div>, <section>, <style>, <nav> mean the model
+    # ignored the Markdown-only instruction)
+    body = content[fm_end + 3:].strip()
+    html_block_tags = re.findall(r'<(?:div|section|style|nav|header|footer|article)\b', body, re.IGNORECASE)
+    if html_block_tags:
+        raise ValueError(
+            f"Blog body contains HTML block tags ({', '.join(set(html_block_tags))}). "
+            "Posts must use pure Markdown — no HTML."
+        )
+
     return fm, content
 
 
 def write_to_supabase(title, content, tokens_used, duration_ms):
-    """Write the generated output and run log to Supabase for the Know Why OS dashboard."""
+    """Write the generated output and run log to Supabase for the OS dashboard."""
     supabase_url = os.environ.get("SUPABASE_URL", "")
     supabase_key = os.environ.get("SUPABASE_SERVICE_KEY", "")
 
