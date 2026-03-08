@@ -281,12 +281,14 @@ Manual win/loss analysis works for small teams but doesn't scale. Here's the tec
 - **Excel/Google Sheets**: Simple analysis for smaller programs
 
 ### Automated Solutions
-Modern platforms like know-why.ai combine interview automation, AI-powered analysis, and insight delivery to scale win/loss programs without adding headcount. These tools can:
+Modern platforms like [Know Why](https://know-why.ai) combine interview automation, AI-powered analysis, and insight delivery to scale win/loss programs without adding headcount. These tools can:
 
 - Automatically schedule and conduct buyer interviews
 - Use AI to extract insights from conversations
 - Generate reports with actionable recommendations
 - Integrate with CRM systems for closed-loop analysis
+
+See [Know Why's pricing](/pricing) for a plan that fits your team size.
 
 ## Implementation Roadmap
 
@@ -332,14 +334,17 @@ Even well-intentioned win/loss programs can fail. Here are the mistakes that kil
 
 **One-time project mentality**: Win/loss analysis is an ongoing capability, not a quarterly project.
 
+---
+
+**Related reading:**
+- [Why Your CRM Loss Reasons Are Lying to You](/blog/why-your-crm-loss-reasons-are-lying-to-you/)
+- [The Win/Loss Interview Questions Your Competitors Hope You Never Ask](/blog/win-loss-interview-questions-your-competitors-hope-you-never-ask/)
+- [What AI Sales Forecasting Tools Get Wrong (And What Buyer Intelligence Gets Right)](/blog/what-ai-sales-forecasting-tools-get-wrong/)
+
 ## Taking Action on Win/Loss Analysis
 
 Win/loss analysis transforms from cost center to revenue driver when you commit to systematic execution. Your buyers are telling you exactly how to win more deals—you just need to ask the right questions and act on what you learn.
 
-Start small but start now. Even 10 quality interviews per quarter will reveal patterns your team can't see from inside the sales process. The companies winning market share aren't necessarily building better products—they're listening more carefully to why buyers actually make decisions.
+Start small but start now. Even 10 quality interviews per quarter will reveal patterns your team can't see from inside the sales process. The companies winning market share aren't necessarily building better products—they're listening more carefully to the buyers they've already talked to.
 
-Tools like [know-why.ai](https://know-why.ai/) can help automate and scale your win/loss program, but the key is beginning with a clear framework and commitment to acting on insights.
-
-**Your next step**: Choose 5 recent losses where you had a legitimate shot to win. Reach out to those buyers this week. Their feedback will be worth more than any consultant report or competitor analysis you could buy.
-
-The best time to understand your buyers was six months ago. The second-best time is right now.
+Ready to stop guessing and start knowing? [Know Why](https://know-why.ai) automates buyer interviews so your team gets the intelligence it needs without the manual effort. [See how it works and what it costs](/pricing).
