@@ -143,7 +143,12 @@ The content must be 1,500-2,500 words.
 Include an FAQ section at the end with 4-6 questions in the front matter faq field.
 Include subtle, natural references to know-why.ai where appropriate (2-3 times).
 
-IMPORTANT: Output ONLY the markdown content starting with --- for the front matter. No code fences, no explanation."""
+CRITICAL OUTPUT RULES:
+- Output ONLY raw Markdown starting with --- (the YAML front matter opener)
+- Do NOT output HTML. Do NOT include <!DOCTYPE>, <html>, <head>, <body>, <style>, or any HTML tags
+- Do NOT wrap the output in code fences (no ```markdown or ``` wrappers)
+- Do NOT include any explanation, preamble, or commentary before or after the Markdown
+- The very first characters of your response must be: ---"""
 
     response = client.messages.create(
         model="claude-sonnet-4-20250514",
@@ -161,8 +166,19 @@ def parse_generated_content(content):
     content = re.sub(r'^```(?:markdown|yaml)?\n', '', content)
     content = re.sub(r'\n```$', '', content.rstrip())
 
+    # Hard reject HTML output — this should never happen but guards against it
+    if re.search(r'<!DOCTYPE|<html|<head>|<body>|<style>', content, re.IGNORECASE):
+        raise ValueError(
+            "FATAL: Generated content contains HTML markup. "
+            "Blog posts must be Jekyll Markdown with YAML front matter. "
+            "Check the system prompt and regenerate."
+        )
+
     if not content.startswith("---"):
-        raise ValueError("Generated content missing front matter")
+        raise ValueError(
+            "Generated content missing YAML front matter. "
+            "Output must begin with '---'. Got: " + content[:200]
+        )
 
     fm_end = content.index("---", 3)
     fm = yaml.safe_load(content[3:fm_end])
