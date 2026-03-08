@@ -143,7 +143,9 @@ The content must be 1,500-2,500 words.
 Include an FAQ section at the end with 4-6 questions in the front matter faq field.
 Include subtle, natural references to know-why.ai where appropriate (2-3 times).
 
-IMPORTANT: Output ONLY the markdown content starting with --- for the front matter. No code fences, no explanation."""
+CRITICAL: Output ONLY raw Markdown starting with --- for the YAML front matter.
+Do NOT output HTML. Do NOT include <!DOCTYPE html> or any HTML tags.
+Do NOT wrap output in code fences. The very first characters must be ---"""
 
     response = client.messages.create(
         model="claude-sonnet-4-20250514",
@@ -161,11 +163,28 @@ def parse_generated_content(content):
     content = re.sub(r'^```(?:markdown|yaml)?\n', '', content)
     content = re.sub(r'\n```$', '', content.rstrip())
 
+    # Hard reject: if the output looks like HTML, fail loudly
+    if content.lstrip().startswith('<!DOCTYPE') or '<html' in content[:200]:
+        raise ValueError(
+            "CRITICAL: Generated content is HTML, not Markdown. "
+            "This would bypass the Jekyll layout and break blog formatting. "
+            "Check the system prompt and user prompt for output format instructions."
+        )
+
     if not content.startswith("---"):
-        raise ValueError("Generated content missing front matter")
+        raise ValueError(
+            "Generated content missing YAML front matter. "
+            "Output must start with --- to be a valid Jekyll post."
+        )
 
     fm_end = content.index("---", 3)
     fm = yaml.safe_load(content[3:fm_end])
+
+    # Validate required front matter fields
+    required_fields = ["layout", "title", "description", "date", "category", "author", "reading_time"]
+    missing = [f for f in required_fields if not fm.get(f)]
+    if missing:
+        raise ValueError(f"Generated front matter is missing required fields: {missing}")
 
     return fm, content
 
