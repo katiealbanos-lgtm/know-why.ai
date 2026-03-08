@@ -78,6 +78,15 @@ The goal isn't to replace your forecasting tools or your revenue intelligence st
 
 If your forecasting dashboard says win rate is declining in mid-market, Know Why tells you why. If your model flags a category of at-risk deals, buyer intelligence tells you what the pattern actually is. The two work better together than either does alone.
 
+[See Know Why's pricing](/pricing) — built to fit teams at every stage.
+
+---
+
+**Related reading:**
+- [Complete Guide to Win/Loss Analysis for B2B SaaS Companies](/blog/complete-guide-to-win-loss-analysis-for-b2b-saas-companies/)
+- [Why Your CRM Loss Reasons Are Lying to You](/blog/why-your-crm-loss-reasons-are-lying-to-you/)
+- [The Win/Loss Interview Questions Your Competitors Hope You Never Ask](/blog/win-loss-interview-questions-your-competitors-hope-you-never-ask/)
+
 ## The Revenue Operations Question Your Forecasting Tool Can't Answer
 
 Before you add another forecasting module or deal intelligence layer, it's worth asking a harder question: how good is the underlying signal you're trying to model?
