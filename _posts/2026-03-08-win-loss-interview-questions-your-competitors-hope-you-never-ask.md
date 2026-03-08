@@ -93,6 +93,15 @@ This is exactly the problem that [Know Why](https://know-why.ai) is built to sol
 
 The questions above aren't hard to write down. They're hard to ask in a conversation where both parties are trying to be comfortable. That's the gap worth closing.
 
+[See how Know Why works and what it costs](/pricing).
+
+---
+
+**Related reading:**
+- [Complete Guide to Win/Loss Analysis for B2B SaaS Companies](/blog/complete-guide-to-win-loss-analysis-for-b2b-saas-companies/)
+- [Why Your CRM Loss Reasons Are Lying to You](/blog/why-your-crm-loss-reasons-are-lying-to-you/)
+- [What AI Sales Forecasting Tools Get Wrong (And What Buyer Intelligence Gets Right)](/blog/what-ai-sales-forecasting-tools-get-wrong/)
+
 ## The Real Question
 
 Before you redesign your question bank, ask yourself what your program is actually optimized for right now. Is it optimized for completion rates? For making the process easy on the buyer? For giving your team a regular cadence of calls they can point to?
