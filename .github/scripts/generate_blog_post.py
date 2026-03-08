@@ -143,7 +143,9 @@ The content must be 1,500-2,500 words.
 Include an FAQ section at the end with 4-6 questions in the front matter faq field.
 Include subtle, natural references to know-why.ai where appropriate (2-3 times).
 
-IMPORTANT: Output ONLY the markdown content starting with --- for the front matter. No code fences, no explanation."""
+CRITICAL: Output ONLY pure Markdown starting with --- for the front matter.
+Do NOT output HTML. Do NOT include <!DOCTYPE html>, <html>, <head>, <style>, <body>, or any HTML tags.
+Do NOT wrap in code fences. The very first character of your response must be the dash in ---."""
 
     response = client.messages.create(
         model="claude-sonnet-4-20250514",
@@ -161,8 +163,19 @@ def parse_generated_content(content):
     content = re.sub(r'^```(?:markdown|yaml)?\n', '', content)
     content = re.sub(r'\n```$', '', content.rstrip())
 
+    # Hard reject: HTML output is not acceptable
+    if '<!DOCTYPE html>' in content or '<html' in content or '<head>' in content:
+        raise ValueError(
+            "ERROR: Generated content is HTML, not Markdown. "
+            "The model ignored output format instructions. "
+            "Aborting — do not write this file."
+        )
+
     if not content.startswith("---"):
-        raise ValueError("Generated content missing front matter")
+        raise ValueError(
+            "ERROR: Generated content is missing YAML front matter. "
+            "Output must begin with ---. Aborting."
+        )
 
     fm_end = content.index("---", 3)
     fm = yaml.safe_load(content[3:fm_end])
@@ -247,6 +260,7 @@ def main():
     raw_content = response.content[0].text
     tokens_used = response.usage.input_tokens + response.usage.output_tokens
 
+    # parse_generated_content will raise ValueError and abort if HTML is detected
     fm, full_content = parse_generated_content(raw_content)
 
     # Derive slug and filename
